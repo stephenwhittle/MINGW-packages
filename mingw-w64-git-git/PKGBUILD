@@ -21,7 +21,7 @@ pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 _ver_base=2.0.0
-pkgver=2.0.0.47118.8768113
+pkgver=2.0.0.47144.71aaa3c
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -31,7 +31,7 @@ license=('GPL2')
 depends=("${MINGW_PACKAGE_PREFIX}-libiconv")
 makedepends=('git')
 
-options=(!libtool strip staticlibs)
+options=(!libtool !strip staticlibs)
 
 source=(${GIT_URL}
         "0000-Add-SEARCH_LIBS-to-GIT_CHECK_FUNC.patch"
@@ -143,5 +143,5 @@ build() {
 package() {
   export PYTHON_PATH=/usr/bin/python2
   cd "$srcdir"/build-${CARCH}
-  make INSTALLDIRS=vendor DESTDIR="$pkgdir" install
+  make strip && make INSTALLDIRS=vendor DESTDIR="$pkgdir" install V=1
 }
