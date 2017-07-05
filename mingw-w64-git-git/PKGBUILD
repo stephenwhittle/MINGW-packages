@@ -79,15 +79,15 @@ package() {
   make INSTALLDIRS=vendor DESTDIR="$pkgdir" install-html V=1 && make strip && make INSTALLDIRS=vendor DESTDIR="$pkgdir" install V=1
   
   # bash completion
-  mkdir -p "${pkgdir}"/usr/share/bash-completion/completions/
-  install -m644 ./contrib/completion/git-completion.bash "${pkgdir}"/usr/share/bash-completion/completions/git
+  mkdir -p "${pkgdir}""${MINGW_PREFIX}"/share/bash-completion/completions/
+  install -m644 ./contrib/completion/git-completion.bash "${pkgdir}""${MINGW_PREFIX}"/share/bash-completion/completions/git
   # fancy git prompt
-  mkdir -p "${pkgdir}"/usr/share/git/
-  install -m644 ./contrib/completion/git-prompt.sh "${pkgdir}"/usr/share/git/git-prompt.sh
+  mkdir -p "${pkgdir}""${MINGW_PREFIX}"/share/git/
+  install -m644 ./contrib/completion/git-prompt.sh "${pkgdir}""${MINGW_PREFIX}"/share/git/git-prompt.sh
   # subtree installation
   sed "s|libexec/git-core|lib/git-core|" -i contrib/subtree/Makefile
   make -C contrib/subtree prefix=/usr DESTDIR="${pkgdir}" install
   sed "s|libexec/git-core|lib/git-core|" -i contrib/credential/wincred/Makefile
-  make -C contrib/credential/wincred prefix=/usr DESTDIR="${pkgdir}" install
+  make -C contrib/credential/wincred prefix=${MINGW_PREFIX} DESTDIR="${pkgdir}" install
   
 }
