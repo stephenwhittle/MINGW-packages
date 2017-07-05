@@ -21,7 +21,7 @@ pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}-git"
 provides=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 conflicts=("${MINGW_PACKAGE_PREFIX}-${_realname}")
 _ver_base=2.0.0
-pkgver=2.0.0.47144.71aaa3c
+pkgver=2.0.0.47144.9b74cfc
 pkgrel=1
 pkgdesc="The fast distributed version control system (mingw-w64)"
 arch=('any')
@@ -29,7 +29,7 @@ url="https://git-scm.com/"
 license=('GPL2')
 
 depends=("${MINGW_PACKAGE_PREFIX}-libiconv")
-makedepends=('git')
+makedepends=('git' ${MINGW_PACKAGE_PREFIX}'-curl' 'asciidoc')
 
 options=(!libtool !strip staticlibs)
 
@@ -143,5 +143,5 @@ build() {
 package() {
   export PYTHON_PATH=/usr/bin/python2
   cd "$srcdir"/build-${CARCH}
-  make strip && make INSTALLDIRS=vendor DESTDIR="$pkgdir" install V=1
+  make INSTALLDIRS=vendor DESTDIR="$pkgdir" install-html V=1 && make strip && make INSTALLDIRS=vendor DESTDIR="$pkgdir" install V=1
 }
