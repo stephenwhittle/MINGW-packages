@@ -70,11 +70,24 @@ build() {
     --with-curl=${MINGW_PREFIX} 
 
   make INSTALLDIRS=vendor -j12 all V=1
-  make -C contrib/subtree prefix=/usr all V=1
+  
 }
 
 package() {
   export PYTHON_PATH=/usr/bin/python2
   cd "$srcdir"/build-${CARCH}
   make INSTALLDIRS=vendor DESTDIR="$pkgdir" install-html V=1 && make strip && make INSTALLDIRS=vendor DESTDIR="$pkgdir" install V=1
+  
+  # bash completion
+  mkdir -p "${pkgdir}"/usr/share/bash-completion/completions/
+  install -m644 ./contrib/completion/git-completion.bash "${pkgdir}"/usr/share/bash-completion/completions/git
+  # fancy git prompt
+  mkdir -p "${pkgdir}"/usr/share/git/
+  install -m644 ./contrib/completion/git-prompt.sh "${pkgdir}"/usr/share/git/git-prompt.sh
+  # subtree installation
+  sed "s|libexec/git-core|lib/git-core|" -i contrib/subtree/Makefile
+  make -C contrib/subtree prefix=/usr DESTDIR="${pkgdir}" install
+  sed "s|libexec/git-core|lib/git-core|" -i contrib/credential/wincred/Makefile
+  make -C contrib/credential/wincred prefix=/usr DESTDIR="${pkgdir}" install
+  
 }
