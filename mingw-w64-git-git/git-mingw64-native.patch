@@ -1,5 +1,5 @@
 diff --git a/aclocal.m4 b/aclocal.m4
-index f11bc7e..91322f1 100644
+index f11bc7ed7d..91322f1a0c 100644
 --- a/aclocal.m4
 +++ b/aclocal.m4
 @@ -36,5 +36,10 @@ AC_DEFUN([TYPE_SOCKLEN_T],
@@ -15,7 +15,7 @@ index f11bc7e..91322f1 100644
 +      #endif])
  ])
 diff --git a/compat/hstrerror.c b/compat/hstrerror.c
-index b85a2fa..c50a1f7 100644
+index b85a2fa956..c50a1f7cda 100644
 --- a/compat/hstrerror.c
 +++ b/compat/hstrerror.c
 @@ -1,6 +1,10 @@
@@ -30,7 +30,7 @@ index b85a2fa..c50a1f7 100644
  const char *githstrerror(int err)
  {
 diff --git a/compat/mingw.c b/compat/mingw.c
-index 8b6fa0d..87cfae7 100644
+index 8b6fa0db44..87cfae718d 100644
 --- a/compat/mingw.c
 +++ b/compat/mingw.c
 @@ -822,14 +822,14 @@ int pipe(int filedes[2])
@@ -51,7 +51,7 @@ index 8b6fa0d..87cfae7 100644
  {
  	/* localtime() in MSVCRT.DLL is thread-safe, but not reentrant */
 diff --git a/compat/mingw.h b/compat/mingw.h
-index e03aecf..e1f7fc5 100644
+index e03aecfe2e..e1f7fc56d7 100644
 --- a/compat/mingw.h
 +++ b/compat/mingw.h
 @@ -1,3 +1,5 @@
@@ -110,7 +110,7 @@ index e03aecf..e1f7fc5 100644
 +#endif /*__COMPAT_MINGW__*/
 \ No newline at end of file
 diff --git a/config.mak.uname b/config.mak.uname
-index adfb90b..df13cee 100644
+index adfb90b601..df13cee07d 100644
 --- a/config.mak.uname
 +++ b/config.mak.uname
 @@ -509,7 +509,7 @@ ifneq (,$(findstring MINGW,$(uname_S)))
@@ -123,7 +123,7 @@ index adfb90b..df13cee 100644
  	COMPAT_OBJS += compat/mingw.o compat/winansi.o \
  		compat/win32/pthread.o compat/win32/syslog.o \
 diff --git a/configure.ac b/configure.ac
-index 2f55237..b05cfc8 100644
+index 2f55237e65..b05cfc8950 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -433,7 +433,14 @@ GIT_PARSE_WITH(tcltk))
@@ -209,8 +209,21 @@ index 2f55237..b05cfc8 100644
  ])
  GIT_CONF_SUBST([NO_IPV6])
  #
+diff --git a/exec_cmd.c b/exec_cmd.c
+index fb94aeba9c..abfaf50673 100644
+--- a/exec_cmd.c
++++ b/exec_cmd.c
+@@ -100,7 +100,7 @@ void setup_path(void)
+ 		strbuf_addstr(&new_path, _PATH_DEFPATH);
+ 
+ 	setenv("PATH", new_path.buf, 1);
+-
++trace_printf("path %s\n", new_path.buf);
+ 	strbuf_release(&new_path);
+ }
+ 
 diff --git a/git-compat-util.h b/git-compat-util.h
-index 047172d..d5f306a 100644
+index 047172d173..d5f306aa15 100644
 --- a/git-compat-util.h
 +++ b/git-compat-util.h
 @@ -245,14 +245,14 @@ typedef unsigned long uintptr_t;
